@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>My To-Do List</title>
+
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+    <div class="container">
+
+        <h1>My To-Do List</h1>
+
+        <!-- ADD TASK FORM -->
+
+        <div class="form">
+
+            <input
+                type="text"
+                id="taskInput"
+                placeholder="Enter your task"
+            >
+
+            <textarea
+                id="descriptionInput"
+                placeholder="Enter description"
+            ></textarea>
+
+            <div class="row">
+
+                <select id="priorityInput">
+
+                    <option value="Low">Low Priority</option>
+
+                    <option value="Medium">Medium Priority</option>
+
+                    <option value="High">High Priority</option>
+
+                </select>
+
+
+                <input
+                    type="date"
+                    id="dueDateInput"
+                >
+
+            </div>
+
+
+            <button
+                class="add-button"
+                onclick="addTask()"
+            >
+                + Add Task
+            </button>
+
+        </div>
+
+
+        <!-- TASK COUNTER -->
+
+        <div class="task-counter" id="taskCounter">
+            0 Tasks
+        </div>
+
+
+        <!-- TASK LIST -->
+
+        <ul id="taskList"></ul>
+
+
+        <!-- CLEAR COMPLETED -->
+
+        <button
+            class="clear-button"
+            onclick="clearCompleted()"
+        >
+            Clear Completed
+        </button>
+
+    </div>
+
+
+    <script src="script.js"></script>
+
+</body>
+
+</html>

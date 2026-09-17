@@ -1,23 +1,26 @@
 {
-  "name": "todo-list",
+  "name": "codsoft-task2",
   "version": "1.0.0",
-  "description": "My To-Do List App",
+  "description": "Quote of the Day App - CodSoft Task 2",
   "main": "main.js",
   "scripts": {
     "start": "electron .",
     "build": "electron-builder"
   },
-  "keywords": [],
-  "author": "",
+  "keywords": [
+    "quotes",
+    "codsoft",
+    "task2"
+  ],
+  "author": "Abhay",
   "license": "ISC",
-  "type": "commonjs",
   "devDependencies": {
-    "electron": "^44.2.0",
-    "electron-builder": "^26.15.3"
+    "electron": "^38.1.0",
+    "electron-builder": "^26.0.12"
   },
   "build": {
-    "appId": "com.mytodolist.app",
-    "productName": "My To-Do List",
+    "appId": "com.codsoft.quoteoftheday",
+    "productName": "Quote of the Day",
     "files": [
       "index.html",
       "style.css",

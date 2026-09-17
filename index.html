@@ -1,12 +1,9 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-    <title>My To-Do List</title>
-
+    <title>Quote of the Day</title>
     <link rel="stylesheet" href="style.css">
 </head>
 
@@ -14,80 +11,49 @@
 
     <div class="container">
 
-        <h1>My To-Do List</h1>
+        <h1>✨ Quote of the Day</h1>
+        <p class="subtitle">A little inspiration for your day</p>
 
-        <!-- ADD TASK FORM -->
+        <div class="quote-card">
 
-        <div class="form">
+            <div class="quote-icon">“</div>
 
-            <input
-                type="text"
-                id="taskInput"
-                placeholder="Enter your task"
-            >
+            <p id="quote">
+                The best way to predict the future is to create it.
+            </p>
 
-            <textarea
-                id="descriptionInput"
-                placeholder="Enter description"
-            ></textarea>
+            <h3 id="author">— Peter Drucker</h3>
 
-            <div class="row">
+            <div class="buttons">
+                <button id="newQuote" class="new-btn">
+                    🔄 New Quote
+                </button>
 
-                <select id="priorityInput">
+                <button id="favoriteBtn" class="favorite-btn">
+                    ❤️ Favorite
+                </button>
 
-                    <option value="Low">Low Priority</option>
+                <button id="copyBtn" class="copy-btn">
+                    📋 Copy
+                </button>
 
-                    <option value="Medium">Medium Priority</option>
-
-                    <option value="High">High Priority</option>
-
-                </select>
-
-
-                <input
-                    type="date"
-                    id="dueDateInput"
-                >
-
+                <button id="shareBtn" class="share-btn">
+                    📤 Share
+                </button>
             </div>
 
-
-            <button
-                class="add-button"
-                onclick="addTask()"
-            >
-                + Add Task
-            </button>
-
         </div>
 
-
-        <!-- TASK COUNTER -->
-
-        <div class="task-counter" id="taskCounter">
-            0 Tasks
+        <div class="favorites-box">
+            <h2>❤️ My Favorites</h2>
+            <div id="favoritesList">
+                <p class="empty">No favorite quotes yet.</p>
+            </div>
         </div>
-
-
-        <!-- TASK LIST -->
-
-        <ul id="taskList"></ul>
-
-
-        <!-- CLEAR COMPLETED -->
-
-        <button
-            class="clear-button"
-            onclick="clearCompleted()"
-        >
-            Clear Completed
-        </button>
 
     </div>
-
 
     <script src="script.js"></script>
 
 </body>
-
 </html>

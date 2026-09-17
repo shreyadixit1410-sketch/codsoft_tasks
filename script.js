@@ -1,454 +1,325 @@
-let tasks = JSON.parse(localStorage.getItem("tasks")) || [];
+// ===============================
+// QUOTE OF THE DAY - TASK 2
+// ===============================
 
-let editingIndex = -1;
+const quotes = [
+    {
+        text: "The best way to predict the future is to create it.",
+        author: "Peter Drucker"
+    },
+    {
+        text: "Success is the sum of small efforts, repeated day in and day out.",
+        author: "Robert Collier"
+    },
+    {
+        text: "Believe you can and you're halfway there.",
+        author: "Theodore Roosevelt"
+    },
+    {
+        text: "Don't watch the clock; do what it does. Keep going.",
+        author: "Sam Levenson"
+    },
+    {
+        text: "The only way to do great work is to love what you do.",
+        author: "Steve Jobs"
+    },
+    {
+        text: "It always seems impossible until it's done.",
+        author: "Nelson Mandela"
+    },
+    {
+        text: "Dream big and dare to fail.",
+        author: "Norman Vincent Peale"
+    },
+    {
+        text: "Great things are done by a series of small things brought together.",
+        author: "Vincent van Gogh"
+    },
+    {
+        text: "Your limitation is only your imagination.",
+        author: "Unknown"
+    },
+    {
+        text: "The future depends on what you do today.",
+        author: "Mahatma Gandhi"
+    }
+];
 
-displayTasks();
+
+// ===============================
+// GET HTML ELEMENTS
+// ===============================
+
+const quoteElement = document.getElementById("quote");
+const authorElement = document.getElementById("author");
+
+const newQuoteButton = document.getElementById("newQuote");
+const favoriteButton = document.getElementById("favoriteBtn");
+const copyButton = document.getElementById("copyBtn");
+const shareButton = document.getElementById("shareBtn");
+
+const favoritesList = document.getElementById("favoritesList");
 
 
-// =============================
-// ADD / UPDATE TASK
-// =============================
+// ===============================
+// VARIABLES
+// ===============================
 
-function addTask() {
+let currentQuote = quotes[0];
 
-    let title = document.getElementById("taskInput").value.trim();
-    let description = document.getElementById("descriptionInput").value.trim();
-    let priority = document.getElementById("priorityInput").value;
-    let dueDate = document.getElementById("dueDateInput").value;
+let favorites = JSON.parse(
+    localStorage.getItem("favorites")
+) || [];
 
-    if (title === "") {
-        alert("Please enter a task!");
+
+// ===============================
+// DISPLAY QUOTE
+// ===============================
+
+function displayQuote(quote) {
+
+    currentQuote = quote;
+
+    quoteElement.textContent = quote.text;
+
+    authorElement.textContent =
+        "— " + quote.author;
+
+    updateFavoriteButton();
+}
+
+
+// ===============================
+// NEW RANDOM QUOTE
+// ===============================
+
+function getRandomQuote() {
+
+    let randomIndex =
+        Math.floor(Math.random() * quotes.length);
+
+    displayQuote(quotes[randomIndex]);
+}
+
+
+// ===============================
+// ADD TO FAVORITES
+// ===============================
+
+function addFavorite() {
+
+    const alreadyFavorite = favorites.some(
+        function (item) {
+            return item.text === currentQuote.text;
+        }
+    );
+
+    if (alreadyFavorite) {
+
+        alert("This quote is already in your favorites!");
+
         return;
     }
 
-
-    // UPDATE EXISTING TASK
-    if (editingIndex !== -1) {
-
-        tasks[editingIndex].title = title;
-        tasks[editingIndex].description = description;
-        tasks[editingIndex].priority = priority;
-        tasks[editingIndex].dueDate = dueDate;
-
-        editingIndex = -1;
-
-        document.querySelector(".add-button").textContent = "+ Add Task";
-
-    }
-
-    // ADD NEW TASK
-    else {
-
-        let newTask = {
-            title: title,
-            description: description,
-            priority: priority,
-            dueDate: dueDate,
-            completed: false
-        };
-
-        tasks.push(newTask);
-    }
-
-
-    saveTasks();
-
-    clearForm();
-
-    displayTasks();
-}
-
-
-// =============================
-// EDIT TASK
-// =============================
-
-function editTask(index) {
-
-    let task = tasks[index];
-
-    // Put task information into form
-
-    document.getElementById("taskInput").value = task.title;
-
-    document.getElementById("descriptionInput").value =
-        task.description;
-
-    document.getElementById("priorityInput").value =
-        task.priority;
-
-    document.getElementById("dueDateInput").value =
-        task.dueDate;
-
-
-    // Remember which task we are editing
-
-    editingIndex = index;
-
-
-    // Change button text
-
-    document.querySelector(".add-button").textContent =
-        "Update Task";
-
-
-    // Scroll to form
-
-    window.scrollTo({
-        top: 0,
-        behavior: "smooth"
-    });
-}
-
-
-// =============================
-// DELETE TASK
-// =============================
-
-function deleteTask(index) {
-
-    let answer = confirm(
-        "Are you sure you want to delete this task?"
-    );
-
-    if (answer) {
-
-        tasks.splice(index, 1);
-
-        saveTasks();
-
-        displayTasks();
-    }
-}
-
-
-// =============================
-// COMPLETE TASK
-// =============================
-
-function toggleTask(index) {
-
-    tasks[index].completed =
-        !tasks[index].completed;
-
-    saveTasks();
-
-    displayTasks();
-}
-
-
-// =============================
-// DISPLAY TASKS
-// =============================
-
-function displayTasks() {
-
-    let taskList =
-        document.getElementById("taskList");
-
-    taskList.innerHTML = "";
-
-
-    tasks.forEach(function(task, index) {
-
-        let li =
-            document.createElement("li");
-
-
-        // Completed
-
-        if (task.completed) {
-
-            li.classList.add("completed");
-        }
-
-
-        // CHECKBOX
-
-        let checkbox =
-            document.createElement("input");
-
-        checkbox.type = "checkbox";
-
-        checkbox.checked =
-            task.completed;
-
-
-        checkbox.addEventListener(
-            "change",
-            function() {
-
-                toggleTask(index);
-            }
-        );
-
-
-        // TASK INFO
-
-        let taskInfo =
-            document.createElement("div");
-
-        taskInfo.className =
-            "task-info";
-
-
-        // TITLE
-
-        let title =
-            document.createElement("div");
-
-        title.className =
-            "task-title";
-
-        title.textContent =
-            task.title;
-
-
-        // DESCRIPTION
-
-        let description =
-            document.createElement("div");
-
-        description.className =
-            "task-description";
-
-        description.textContent =
-            "Description: " +
-            (task.description || "No description");
-
-
-        // DATE
-
-        let date =
-            document.createElement("div");
-
-        date.className =
-            "task-date";
-
-        date.textContent =
-            "Due Date: " +
-            (task.dueDate || "No due date");
-
-
-        // PRIORITY
-
-        let priority =
-            document.createElement("span");
-
-        priority.className =
-            "priority";
-
-        priority.textContent =
-            task.priority + " Priority";
-
-
-        if (task.priority === "High") {
-
-            priority.classList.add(
-                "priority-high"
-            );
-
-        }
-        else if (task.priority === "Medium") {
-
-            priority.classList.add(
-                "priority-medium"
-            );
-
-        }
-        else {
-
-            priority.classList.add(
-                "priority-low"
-            );
-        }
-
-
-        // ADD INFO
-
-        taskInfo.appendChild(title);
-
-        taskInfo.appendChild(description);
-
-        taskInfo.appendChild(date);
-
-        taskInfo.appendChild(priority);
-
-
-        // BUTTON AREA
-
-        let buttons =
-            document.createElement("div");
-
-        buttons.className =
-            "task-buttons";
-
-
-        // EDIT BUTTON
-
-        let editButton =
-            document.createElement("button");
-
-        editButton.textContent =
-            "Edit";
-
-        editButton.className =
-            "edit-button";
-
-
-        editButton.addEventListener(
-            "click",
-            function() {
-
-                editTask(index);
-            }
-        );
-
-
-        // DELETE BUTTON
-
-        let deleteButton =
-            document.createElement("button");
-
-        deleteButton.textContent =
-            "Delete";
-
-        deleteButton.className =
-            "delete-button";
-
-
-        deleteButton.addEventListener(
-            "click",
-            function() {
-
-                deleteTask(index);
-            }
-        );
-
-
-        // ADD BUTTONS
-
-        buttons.appendChild(editButton);
-
-        buttons.appendChild(deleteButton);
-
-
-        // ADD EVERYTHING
-
-        li.appendChild(checkbox);
-
-        li.appendChild(taskInfo);
-
-        li.appendChild(buttons);
-
-        taskList.appendChild(li);
-
-    });
-
-
-    updateCounter();
-}
-
-
-// =============================
-// CLEAR FORM
-// =============================
-
-function clearForm() {
-
-    document.getElementById("taskInput").value = "";
-
-    document.getElementById("descriptionInput").value = "";
-
-    document.getElementById("priorityInput").value = "Low";
-
-    document.getElementById("dueDateInput").value = "";
-}
-
-
-// =============================
-// SAVE TASKS
-// =============================
-
-function saveTasks() {
+    favorites.push(currentQuote);
 
     localStorage.setItem(
-        "tasks",
-        JSON.stringify(tasks)
+        "favorites",
+        JSON.stringify(favorites)
     );
+
+    displayFavorites();
+
+    updateFavoriteButton();
 }
 
 
-// =============================
-// TASK COUNTER
-// =============================
+// ===============================
+// REMOVE FROM FAVORITES
+// ===============================
 
-function updateCounter() {
+function removeFavorite(index) {
 
-    let total = tasks.length;
+    favorites.splice(index, 1);
 
-    let completed =
-        tasks.filter(function(task) {
+    localStorage.setItem(
+        "favorites",
+        JSON.stringify(favorites)
+    );
 
-            return task.completed;
+    displayFavorites();
 
-        }).length;
-
-    let active =
-        total - completed;
-
-
-    document.getElementById(
-        "taskCounter"
-    ).textContent =
-
-        total + " Tasks | " +
-
-        active + " Active | " +
-
-        completed + " Completed";
+    updateFavoriteButton();
 }
 
 
-// =============================
-// CLEAR COMPLETED
-// =============================
+// ===============================
+// UPDATE FAVORITE BUTTON
+// ===============================
 
-function clearCompleted() {
+function updateFavoriteButton() {
 
-    let completed =
-        tasks.filter(function(task) {
+    const isFavorite = favorites.some(
+        function (item) {
+            return item.text === currentQuote.text;
+        }
+    );
 
-            return task.completed;
+    if (isFavorite) {
 
-        });
+        favoriteButton.textContent =
+            "💖 Favorited";
+
+    } else {
+
+        favoriteButton.textContent =
+            "❤️ Favorite";
+    }
+}
 
 
-    if (completed.length === 0) {
+// ===============================
+// DISPLAY FAVORITES
+// ===============================
 
-        alert("There are no completed tasks.");
+function displayFavorites() {
+
+    favoritesList.innerHTML = "";
+
+    if (favorites.length === 0) {
+
+        favoritesList.innerHTML =
+            '<p class="empty">No favorite quotes yet.</p>';
 
         return;
     }
 
+    favorites.forEach(
+        function (quote, index) {
 
-    let answer = confirm(
-        "Delete all completed tasks?"
+            const item =
+                document.createElement("div");
+
+            item.className = "favorite-item";
+
+            const quoteText =
+                document.createElement("p");
+
+            quoteText.className = "favorite-text";
+
+            quoteText.textContent =
+                '"' + quote.text + '"';
+
+            const author =
+                document.createElement("p");
+
+            author.className = "favorite-author";
+
+            author.textContent =
+                "— " + quote.author;
+
+            const removeButton =
+                document.createElement("button");
+
+            removeButton.className = "remove-btn";
+
+            removeButton.textContent = "Remove";
+
+            removeButton.addEventListener(
+                "click",
+                function () {
+                    removeFavorite(index);
+                }
+            );
+
+            item.appendChild(quoteText);
+            item.appendChild(author);
+            item.appendChild(removeButton);
+
+            favoritesList.appendChild(item);
+        }
     );
-
-
-    if (answer) {
-
-        tasks =
-            tasks.filter(function(task) {
-
-                return !task.completed;
-
-            });
-
-
-        saveTasks();
-
-        displayTasks();
-    }
 }
+
+
+// ===============================
+// COPY QUOTE
+// ===============================
+
+function copyQuote() {
+
+    const text =
+        '"' +
+        currentQuote.text +
+        '" — ' +
+        currentQuote.author;
+
+    const textarea =
+        document.createElement("textarea");
+
+    textarea.value = text;
+
+    document.body.appendChild(textarea);
+
+    textarea.select();
+
+    document.execCommand("copy");
+
+    document.body.removeChild(textarea);
+
+    alert("Quote copied successfully! 📋");
+}
+
+
+// ===============================
+// SHARE QUOTE
+// ===============================
+
+function shareQuote() {
+
+    const text =
+        '"' +
+        currentQuote.text +
+        '" — ' +
+        currentQuote.author;
+
+    const whatsappURL =
+        "https://wa.me/?text=" +
+        encodeURIComponent(text);
+
+    window.open(whatsappURL);
+}
+
+
+// ===============================
+// BUTTON EVENTS
+// ===============================
+
+newQuoteButton.addEventListener(
+    "click",
+    getRandomQuote
+);
+
+favoriteButton.addEventListener(
+    "click",
+    addFavorite
+);
+
+copyButton.addEventListener(
+    "click",
+    copyQuote
+);
+
+shareButton.addEventListener(
+    "click",
+    shareQuote
+);
+
+
+// ===============================
+// START APP
+// ===============================
+
+displayQuote(currentQuote);
+
+displayFavorites();

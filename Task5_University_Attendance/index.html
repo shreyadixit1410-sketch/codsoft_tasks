@@ -1,0 +1,500 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="University Attendance Management App">
+    <title>University Attendance App</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+    <!-- ================= LOGIN / REGISTER ================= -->
+
+    <div id="authPage" class="auth-page">
+
+        <div class="auth-card">
+
+            <div class="brand">
+                <div class="brand-icon">🎓</div>
+                <h1>CampusAttend</h1>
+                <p>University Attendance Management</p>
+            </div>
+
+            <!-- Login -->
+            <div id="loginBox">
+
+                <h2>Welcome Back</h2>
+                <p class="subtitle">Login to continue</p>
+
+                <form id="loginForm">
+
+                    <label for="loginEmail">Email</label>
+                    <input
+                        type="email"
+                        id="loginEmail"
+                        placeholder="Enter your email"
+                        required
+                    >
+
+                    <label for="loginPassword">Password</label>
+                    <input
+                        type="password"
+                        id="loginPassword"
+                        placeholder="Enter your password"
+                        required
+                    >
+
+                    <button type="submit" class="primary-btn">
+                        Login
+                    </button>
+
+                </form>
+
+                <p class="switch-text">
+                    Don't have an account?
+                    <button type="button" id="showRegister">
+                        Create account
+                    </button>
+                </p>
+
+            </div>
+
+            <!-- Register -->
+            <div id="registerBox" class="hidden">
+
+                <h2>Create Account</h2>
+                <p class="subtitle">Register as a student or instructor</p>
+
+                <form id="registerForm">
+
+                    <label for="registerName">Full Name</label>
+                    <input
+                        type="text"
+                        id="registerName"
+                        placeholder="Enter your full name"
+                        required
+                    >
+
+                    <label for="registerEmail">Email</label>
+                    <input
+                        type="email"
+                        id="registerEmail"
+                        placeholder="Enter your email"
+                        required
+                    >
+
+                    <label for="registerPassword">Password</label>
+                    <input
+                        type="password"
+                        id="registerPassword"
+                        placeholder="Minimum 6 characters"
+                        minlength="6"
+                        required
+                    >
+
+                    <label for="registerRole">Account Type</label>
+
+                    <select id="registerRole" required>
+                        <option value="">Select role</option>
+                        <option value="student">Student</option>
+                        <option value="instructor">Instructor</option>
+                    </select>
+
+                    <button type="submit" class="primary-btn">
+                        Register
+                    </button>
+
+                </form>
+
+                <p class="switch-text">
+                    Already have an account?
+                    <button type="button" id="showLogin">
+                        Login
+                    </button>
+                </p>
+
+            </div>
+
+            <div id="authMessage" class="message"></div>
+
+        </div>
+
+    </div>
+
+
+    <!-- ================= APPLICATION ================= -->
+
+    <div id="appPage" class="hidden">
+
+        <!-- Sidebar -->
+
+        <aside class="sidebar">
+
+            <div class="sidebar-brand">
+                <span>🎓</span>
+                <div>
+                    <strong>CampusAttend</strong>
+                    <small>Attendance System</small>
+                </div>
+            </div>
+
+            <nav id="navigation">
+
+                <button class="nav-btn active" data-page="dashboard">
+                    📊 Dashboard
+                </button>
+
+                <button class="nav-btn" data-page="courses">
+                    📚 Courses
+                </button>
+
+                <button
+                    class="nav-btn"
+                    data-page="attendance"
+                    id="attendanceNav"
+                >
+                    ✅ Attendance
+                </button>
+
+                <button
+                    class="nav-btn"
+                    data-page="students"
+                    id="studentsNav"
+                >
+                    👨‍🎓 Students
+                </button>
+
+            </nav>
+
+            <button id="logoutBtn" class="logout-btn">
+                🚪 Logout
+            </button>
+
+        </aside>
+
+
+        <!-- Main content -->
+
+        <main class="main-content">
+
+            <!-- Header -->
+
+            <header class="topbar">
+
+                <div>
+                    <h2 id="pageTitle">Dashboard</h2>
+                    <p id="pageSubtitle">
+                        University attendance overview
+                    </p>
+                </div>
+
+                <div class="user-info">
+
+                    <div class="avatar" id="userAvatar">
+                        U
+                    </div>
+
+                    <div>
+                        <strong id="userName">User</strong>
+                        <span id="userRole">Student</span>
+                    </div>
+
+                </div>
+
+            </header>
+
+
+            <!-- ================= DASHBOARD ================= -->
+
+            <section id="dashboardPage" class="page-section">
+
+                <div class="welcome-card">
+
+                    <div>
+                        <p class="small-label">WELCOME BACK</p>
+                        <h1 id="welcomeName">
+                            Welcome!
+                        </h1>
+                        <p>
+                            Manage your university attendance easily.
+                        </p>
+                    </div>
+
+                    <div class="welcome-icon">
+                        🎓
+                    </div>
+
+                </div>
+
+
+                <div class="stats-grid">
+
+                    <div class="stat-card">
+                        <div class="stat-icon purple">📚</div>
+                        <div>
+                            <span>Courses</span>
+                            <strong id="totalCourses">0</strong>
+                        </div>
+                    </div>
+
+                    <div class="stat-card">
+                        <div class="stat-icon green">✅</div>
+                        <div>
+                            <span>Present</span>
+                            <strong id="presentCount">0</strong>
+                        </div>
+                    </div>
+
+                    <div class="stat-card">
+                        <div class="stat-icon red">❌</div>
+                        <div>
+                            <span>Absent</span>
+                            <strong id="absentCount">0</strong>
+                        </div>
+                    </div>
+
+                    <div class="stat-card">
+                        <div class="stat-icon blue">📈</div>
+                        <div>
+                            <span>Attendance</span>
+                            <strong id="attendancePercentage">0%</strong>
+                        </div>
+                    </div>
+
+                </div>
+
+
+                <div class="content-card">
+
+                    <div class="card-header">
+                        <div>
+                            <h3>Recent Attendance</h3>
+                            <p>Your latest attendance records</p>
+                        </div>
+                    </div>
+
+                    <div id="recentAttendance">
+                        <div class="empty-state">
+                            No attendance records yet.
+                        </div>
+                    </div>
+
+                </div>
+
+            </section>
+
+
+            <!-- ================= COURSES ================= -->
+
+            <section id="coursesPage" class="page-section hidden">
+
+                <div class="section-heading">
+
+                    <div>
+                        <h2>Courses</h2>
+                        <p>View and manage university courses.</p>
+                    </div>
+
+                    <button
+                        id="addCourseBtn"
+                        class="primary-btn"
+                    >
+                        + Add Course
+                    </button>
+
+                </div>
+
+                <div id="coursesContainer" class="course-grid"></div>
+
+            </section>
+
+
+            <!-- ================= ATTENDANCE ================= -->
+
+            <section id="attendancePage" class="page-section hidden">
+
+                <div class="section-heading">
+
+                    <div>
+                        <h2>Attendance</h2>
+                        <p>Track attendance records.</p>
+                    </div>
+
+                </div>
+
+                <div id="attendanceContainer"></div>
+
+            </section>
+
+
+            <!-- ================= STUDENTS ================= -->
+
+            <section id="studentsPage" class="page-section hidden">
+
+                <div class="section-heading">
+
+                    <div>
+                        <h2>Student Roster</h2>
+                        <p>Manage students enrolled in courses.</p>
+                    </div>
+
+                    <button
+                        id="addStudentBtn"
+                        class="primary-btn"
+                    >
+                        + Add Student
+                    </button>
+
+                </div>
+
+                <div id="studentsContainer"></div>
+
+            </section>
+
+        </main>
+
+    </div>
+
+
+    <!-- ================= COURSE MODAL ================= -->
+
+    <div id="courseModal" class="modal hidden">
+
+        <div class="modal-card">
+
+            <div class="modal-header">
+                <h2>Add New Course</h2>
+                <button class="close-btn" data-close="courseModal">
+                    ×
+                </button>
+            </div>
+
+            <form id="courseForm">
+
+                <label>Course Name</label>
+                <input
+                    type="text"
+                    id="courseName"
+                    placeholder="e.g. Data Structures"
+                    required
+                >
+
+                <label>Course Code</label>
+                <input
+                    type="text"
+                    id="courseCode"
+                    placeholder="e.g. CS201"
+                    required
+                >
+
+                <label>Instructor Name</label>
+                <input
+                    type="text"
+                    id="courseInstructor"
+                    placeholder="Instructor name"
+                    required
+                >
+
+                <div class="modal-actions">
+
+                    <button
+                        type="button"
+                        class="secondary-btn"
+                        data-close="courseModal"
+                    >
+                        Cancel
+                    </button>
+
+                    <button
+                        type="submit"
+                        class="primary-btn"
+                    >
+                        Create Course
+                    </button>
+
+                </div>
+
+            </form>
+
+        </div>
+
+    </div>
+
+
+    <!-- ================= STUDENT MODAL ================= -->
+
+    <div id="studentModal" class="modal hidden">
+
+        <div class="modal-card">
+
+            <div class="modal-header">
+                <h2>Add Student to Course</h2>
+
+                <button class="close-btn" data-close="studentModal">
+                    ×
+                </button>
+            </div>
+
+            <form id="studentForm">
+
+                <label>Select Course</label>
+
+                <select id="studentCourse" required>
+                    <option value="">Select course</option>
+                </select>
+
+                <label>Student Name</label>
+
+                <input
+                    type="text"
+                    id="studentName"
+                    placeholder="Student full name"
+                    required
+                >
+
+                <label>Student Email</label>
+
+                <input
+                    type="email"
+                    id="studentEmail"
+                    placeholder="student@example.com"
+                    required
+                >
+
+                <div class="modal-actions">
+
+                    <button
+                        type="button"
+                        class="secondary-btn"
+                        data-close="studentModal"
+                    >
+                        Cancel
+                    </button>
+
+                    <button
+                        type="submit"
+                        class="primary-btn"
+                    >
+                        Add Student
+                    </button>
+
+                </div>
+
+            </form>
+
+        </div>
+
+    </div>
+
+
+    <!-- ================= TOAST ================= -->
+
+    <div id="toast" class="toast"></div>
+
+
+    <script src="script.js"></script>
+
+</body>
+</html>

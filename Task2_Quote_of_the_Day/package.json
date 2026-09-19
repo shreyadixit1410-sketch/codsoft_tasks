@@ -1,0 +1,34 @@
+{
+  "name": "codsoft-task2",
+  "version": "1.0.0",
+  "description": "Quote of the Day App - CodSoft Task 2",
+  "main": "main.js",
+  "scripts": {
+    "start": "electron .",
+    "build": "electron-builder"
+  },
+  "keywords": [
+    "quotes",
+    "codsoft",
+    "task2"
+  ],
+  "author": "Abhay",
+  "license": "ISC",
+  "devDependencies": {
+    "electron": "^38.1.0",
+    "electron-builder": "^26.0.12"
+  },
+  "build": {
+    "appId": "com.codsoft.quoteoftheday",
+    "productName": "Quote of the Day",
+    "files": [
+      "index.html",
+      "style.css",
+      "script.js",
+      "main.js"
+    ],
+    "win": {
+      "target": "nsis"
+    }
+  }
+}
